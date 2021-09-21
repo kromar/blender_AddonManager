@@ -47,6 +47,7 @@ bl_info = {
 classes = (
     preferences.AddonPreferences,
     addon_updater.AddonUpdater_OT_SearchUpdates,
+    addon_manager.AddonManager_OT_SearchTrackers,
     )
 
 

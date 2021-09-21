@@ -19,7 +19,8 @@
 
 
 import bpy
-
+import addon_utils
+from bpy.types import Operator 
 
 def prefs():
     user_preferences = bpy.context.preferences
@@ -32,4 +33,28 @@ def draw_addon_manager_buttons(self, context):
         row = layout.row(align=True)
 
         row.operator(operator="addon_updater.check_updates", text="", emboss=True, icon='FILE_REFRESH')
+
+class AddonManager_OT_SearchTrackers(Operator):
+    '''search the installed addons for valid tracker urls to populate the updater list'''
+    bl_idname = "addon_manager.search_trackers"
+    bl_label = "Search Addon Trackers" 
+    
+    def execute(self, context): 
+        self.find_addon_trackers()
+        return{'FINISHED'}
+    
+    def find_addon_trackers(self):        
+        tracked_addons = []  
+        untracked_addons = []      
+        for mod in addon_utils.modules():
+            if mod.bl_info.get('tracker_url') and 'git' in mod.bl_info.get('tracker_url'):
+                print(mod.bl_info.get('name'))
+                print("    \_____", mod.bl_info.get('tracker_url'))
+                tracked_addons.append((mod.bl_info.get('name'), mod.bl_info.get('tracker_url')))
+            else:
+                #print('============', mod.bl_info.get('name'))            
+                untracked_addons.append((mod.bl_info.get('name'), 'NONE'))
+                
+        print('============')  
+        
             

@@ -19,8 +19,10 @@
 if "bpy" in locals():
     import importlib
     importlib.reload(addon_updater)
+    importlib.reload(addon_manager)
 else:
     from . import addon_updater
+    from . import addon_manager
     
 """Addon preferences"""
 import bpy
@@ -59,7 +61,8 @@ class AddonPreferences(AddonPreferences):
         name="Experimental Verions",
         description="Check for experimental verions",
         default=False)
-    ############################################
+
+    #################
 
     
   
@@ -79,6 +82,7 @@ class AddonPreferences(AddonPreferences):
         col  = box.column(align=False) 
         row  = col.row(align=False)         
         
+        row.operator("addon_manager.search_trackers", text="Search Addon Trackers", icon='FILE_REFRESH', depress=False)
         row.operator("addon_updater.check_updates", text="Check for Updates", icon='FILE_REFRESH', depress=False).button_input = 0
         
         if addon_updater.update_available == False:
