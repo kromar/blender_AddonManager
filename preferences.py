@@ -53,13 +53,13 @@ class AddonPreferences(AddonPreferences):
         default="blender_addon_updater.zip") 
 
     auto_update_check: BoolProperty(
-        name="Check for updates automaticaly",
+        name="Check for updates automatically",
         description="auto_update_check",
         default=False)
 
     experimental_versions: BoolProperty(
-        name="Experimental Verions",
-        description="Check for experimental verions",
+        name="Experimental Versions",
+        description="Check for experimental versions",
         default=False)
 
     #################
