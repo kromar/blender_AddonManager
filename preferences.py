@@ -64,8 +64,7 @@ class AddonPreferences(AddonPreferences):
 
     #################
 
-    
-  
+      
     def draw(self, context):
         # GoB Troubleshooting
         layout = self.layout
@@ -82,7 +81,7 @@ class AddonPreferences(AddonPreferences):
         col  = box.column(align=False) 
         row  = col.row(align=False)         
         
-        row.operator("addon_manager.search_trackers", text="Search Addon Trackers", icon='FILE_REFRESH', depress=False)
+        row.operator("addon_manager.find_trackers", text="Search Addon Trackers", icon='FILE_REFRESH', depress=False)
         row.operator("addon_updater.check_updates", text="Check for Updates", icon='FILE_REFRESH', depress=False).button_input = 0
         
         if addon_updater.update_available == False:
@@ -103,6 +102,22 @@ class AddonPreferences(AddonPreferences):
         col.prop(self, 'experimental_versions') 
         #col.prop(self, 'auto_update_check')
 
-        ############################################
+        col.separator(factor=2)
+        col  = layout.column(align=True)  
+        col.label(text='Tracker urls')  
+        for addon in addon_manager.AddonManager_OT_SearchTrackers.tracker_urls:
+            box = col.box()
+            row = box.row()
+            row.label(text=str(addon[0]))  
+            row.label(text=str(addon[1])) 
+
+        col.separator(factor=2)
+        col  = layout.column(align=True)   
+        col.label(text='Doc urls')  
+        for addon in addon_manager.AddonManager_OT_SearchTrackers.doc_urls:
+            box = col.box()
+            row = box.row()
+            row.label(text=str(addon[0]))  
+            row.label(text=str(addon[1])) 
 
  

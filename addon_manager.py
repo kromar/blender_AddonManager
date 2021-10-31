@@ -36,25 +36,29 @@ def draw_addon_manager_buttons(self, context):
 
 class AddonManager_OT_SearchTrackers(Operator):
     '''search the installed addons for valid tracker urls to populate the updater list'''
-    bl_idname = "addon_manager.search_trackers"
+    bl_idname = "addon_manager.find_trackers"
     bl_label = "Search Addon Trackers" 
-    
+       
+    tracker_urls = []  
+    doc_urls = []  
+    untracker_urls = []   
+
     def execute(self, context): 
-        self.find_addon_trackers()
+        self.find_trackers()
         return{'FINISHED'}
     
-    def find_addon_trackers(self):        
-        tracked_addons = []  
-        untracked_addons = []      
+    def find_trackers(self):        
         for mod in addon_utils.modules():
-            if mod.bl_info.get('tracker_url') and 'git' in mod.bl_info.get('tracker_url'):
+            if mod.bl_info.get('tracker_url') and 'git' in mod.bl_info.get('tracker_url'): #mod.bl_info.get('doc_url')
                 print(mod.bl_info.get('name'))
                 print("    \_____", mod.bl_info.get('tracker_url'))
-                tracked_addons.append((mod.bl_info.get('name'), mod.bl_info.get('tracker_url')))
+                self.tracker_urls.append((mod.bl_info.get('name'), mod.bl_info.get('tracker_url')))
+            elif  mod.bl_info.get('doc_url') and 'git' in mod.bl_info.get('doc_url'):                
+                self.doc_urls.append((mod.bl_info.get('name'), mod.bl_info.get('doc_url')))
             else:
-                #print('============', mod.bl_info.get('name'))            
-                untracked_addons.append((mod.bl_info.get('name'), 'NONE'))
-                
-        print('============')  
+                #print('============ untracked', mod.bl_info.get('name'))            
+                self.untracker_urls.append((mod.bl_info.get('name'), 'NONE'))
+        
+        return self.tracker_urls
         
             
